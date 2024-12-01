@@ -4,6 +4,7 @@ import com.javaacademy.caravito.advertisement.Advertisement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,12 @@ public class AdvertisementStorage {
 
   public List<Advertisement> getAllAdvertisement() {
     return advertisementStorage.values().stream().toList();
+  }
+
+  public List<Advertisement> getAllAdvertisementByName(String name) {
+    return advertisementStorage.values().stream()
+        .filter(advertisement -> Objects.equals(advertisement.getName(), name))
+        .toList();
   }
 
   public Optional<Advertisement> getAdvertisementById(Integer id) {
