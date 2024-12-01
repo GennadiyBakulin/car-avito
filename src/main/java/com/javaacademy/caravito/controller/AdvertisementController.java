@@ -5,7 +5,6 @@ import com.javaacademy.caravito.service.AdvertisementStorage;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/advertisement")
-@Slf4j
 public class AdvertisementController {
 
   private final AdvertisementStorage advertisementStorage;
@@ -43,7 +41,6 @@ public class AdvertisementController {
       @RequestParam(required = false) String name,
       @RequestParam(required = false) String color,
       @RequestParam(required = false) BigDecimal price) {
-    log.info("{}{}{}", name, color, price);
     return advertisementStorage.getAdvertisementByMultipleParameter(name, color, price);
   }
 
