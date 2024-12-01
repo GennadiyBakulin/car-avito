@@ -2,8 +2,10 @@ package com.javaacademy.caravito.controller;
 
 import com.javaacademy.caravito.advertisement.Advertisement;
 import com.javaacademy.caravito.service.AdvertisementStorage;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/advertisement")
+@Slf4j
 public class AdvertisementController {
 
   private final AdvertisementStorage advertisementStorage;
@@ -25,18 +28,27 @@ public class AdvertisementController {
     advertisementStorage.save(advertisement);
   }
 
-  @GetMapping("/search")
-  public List<Advertisement> getAdvertisementByName(@RequestParam String name) {
-    return advertisementStorage.getAllAdvertisementByName(name);
-  }
-
-  @DeleteMapping("/{id}")
-  public boolean deleteAdvertisementById(@PathVariable Integer id) {
-    return advertisementStorage.deleteById(id);
+  @GetMapping
+  public List<Advertisement> getAllAdvertisement() {
+    return advertisementStorage.getAllAdvertisement();
   }
 
   @GetMapping("/{id}")
   public Advertisement getAdvertisementById(@PathVariable Integer id) {
     return advertisementStorage.getAdvertisementById(id).orElseThrow();
+  }
+
+  @GetMapping("/search")
+  public List<Advertisement> getAdvertisementByMultipleParameter(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) String color,
+      @RequestParam(required = false) BigDecimal price) {
+    log.info("{}{}{}", name, color, price);
+    return advertisementStorage.getAdvertisementByMultipleParameter(name, color, price);
+  }
+
+  @DeleteMapping("/{id}")
+  public boolean deleteAdvertisementById(@PathVariable Integer id) {
+    return advertisementStorage.deleteById(id);
   }
 }
